@@ -43,7 +43,7 @@ app.get('/eventos', async (req, res) => {
 //  ELIMINAR EVENTO (ESTO TE FALTABA)
 app.delete('/evento/:id', async (req, res) => {
     await Evento.findByIdAndDelete(req.params.id);
-    log("Evento eliminado");
+    log("Evento que ha sido creado, eliminado");
 
     res.json({ status: "deleted" });
 });
