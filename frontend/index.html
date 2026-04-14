@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Event Logger Pro</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+.container {
+    max-width: 600px;
+    margin: 60px auto;
+    background: #ffffff10;
+    padding: 30px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 70%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #00c9ff;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #92fe9d;
+}
+
+ul {
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+}
+
+li {
+    background: #ffffff20;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(10px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Bitácora de Eventos</h1>
+
+    <div style="display:flex; gap:10px;">
+        <input id="msg" placeholder="Escribe un evento...">
+        <button onclick="send()">Enviar</button>
+    </div>
+
+    <ul id="list"></ul>
+</div>
+
+<script>
+    async function send(){
+        const msg = document.getElementById("msg").value;
+    
+        if(!msg) return alert("Escribe algo");
+    
+        await fetch("http://localhost:3000/evento", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({mensaje: msg})
+        });
+    
+        document.getElementById("msg").value = "";
+        load();
+    }
+    
+    async function load(){
+        const res = await fetch("http://localhost:3000/eventos");
+        const data = await res.json();
+    
+        document.getElementById("list").innerHTML =
+            data.map(e => `
+                <li>
+                    <b>${e.mensaje}</b><br>
+                    ${new Date(e.fecha).toLocaleString()}
+                    <br>
+                    <button onclick="borrar('${e._id}')">Eliminar</button>
+                </li>
+            `).join("");
+    }
+    
+    async function borrar(id){
+        await fetch(`http://localhost:3000/evento/${id}`, {
+            method: "DELETE"
+        });
+    
+        load();
+    }
+    
+    load();
+    </script>
