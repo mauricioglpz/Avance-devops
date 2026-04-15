@@ -18,7 +18,7 @@ Frontend (Nginx) → Backend (Node.js + Express) → Base de datos (MongoDB)
 
 ---
 
-## 🛠️ Tecnologías utilizadas
+## Tecnologías utilizadas
 
 - Node.js  
 - Express.js  
