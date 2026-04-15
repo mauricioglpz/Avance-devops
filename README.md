@@ -106,11 +106,18 @@ avance-devops/
 ├── docker-compose.yml  
 └── logs/  
 
----
 
 ## Notas importantes
 
 - El backend corre en el puerto 3000  
 - El frontend se sirve con Nginx en el puerto 8080  
 - La comunicación entre servicios es interna por Docker  
-- MongoDB corre dentro de contenedor  
+- MongoDB corre dentro de contenedor
+  
+ Security Groups deben permitir tráfico entrante en los puertos:
+- 3000 (backend)
+- 8080 (frontend)
+
+En producción NO se recomienda 0.0.0.0/0 porque expone la aplicación a todo Internet.
+Se deben restringir IPs específicas o usar VPC segura.
+---
