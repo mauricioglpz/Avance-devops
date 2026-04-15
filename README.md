@@ -1,6 +1,6 @@
 # Event Logger Pro
 
-## 📖 Descripción del proyecto
+## Descripción del proyecto
 
 Event Logger Pro es una aplicación web tipo CRUD que permite crear, visualizar y eliminar eventos en tiempo real.
 
