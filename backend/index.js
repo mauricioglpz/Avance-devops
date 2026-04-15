@@ -19,11 +19,10 @@ const EventoSchema = new mongoose.Schema({
 const Evento = mongoose.model('Evento', EventoSchema);
 
 // LOG
-function log(mensaje) {
-    const logMsg = `[${new Date().toISOString()}] INFO: ${mensaje}\n`;
+function log(tipo, mensaje) {
+    const logMsg = `[${new Date().toISOString()}] ${tipo}: ${mensaje}\n`;
     fs.appendFileSync('/app/logs/app.log', logMsg);
 }
-
 // CREAR EVENTO
 app.post('/evento', async (req, res) => {
     const evento = new Evento({ mensaje: req.body.mensaje });
