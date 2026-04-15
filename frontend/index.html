@@ -108,8 +108,7 @@ li {
         document.getElementById("list").innerHTML =
             data.map(e => `
                 <li>
-                    <b>${e.mensaje}</b><br>
-                    ${new Date(e.fecha).toLocaleString()}
+                    ${e.mensaje} - ${new Date(e.fecha).toLocaleString()}
                     <br>
                     <button onclick="borrar('${e._id}')">Eliminar</button>
                 </li>
