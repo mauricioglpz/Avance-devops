@@ -86,42 +86,39 @@ li {
 </div>
 
 <script>
-    async function send(){
-        const msg = document.getElementById("msg").value;
-    
-        if(!msg) return alert("Escribe algo");
-    
-        await fetch("http://localhost:3000/evento", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({mensaje: msg})
-        });
-    
-        document.getElementById("msg").value = "";
-        load();
-    }
-    
-    async function load(){
-        const res = await fetch("http://localhost:3000/eventos");
-        const data = await res.json();
-    
-        document.getElementById("list").innerHTML =
-            data.map(e => `
-                <li>
-                    ${e.mensaje} - ${new Date(e.fecha).toLocaleString()}
-                    <br>
-                    <button onclick="borrar('${e._id}')">Eliminar</button>
-                </li>
-            `).join("");
-    }
-    
-    async function borrar(id){
-        await fetch(`http://localhost:3000/evento/${id}`, {
-            method: "DELETE"
-        });
-    
-        load();
-    }
-    
+  const API = "http://34.229.134.133:3000";
+
+window.send = async function () {
+    const msg = document.getElementById("msg").value;
+    if (!msg) return alert("Escribe algo");
+
+    await fetch(`${API}/evento`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({mensaje: msg})
+    });
+
+    document.getElementById("msg").value = "";
     load();
+}
+
+window.load = async function () {
+    const res = await fetch(`${API}/eventos`);
+    const data = await res.json();
+
+    document.getElementById("list").innerHTML = data.map(e => `
+        <li>
+            ${e.mensaje} - ${new Date(e.fecha).toLocaleString()}
+            <br>
+            <button onclick="borrar('${e._id}')">Eliminar</button>
+        </li>
+    `).join("");
+}
+
+window.borrar = async function (id) {
+    await fetch(`${API}/evento/${id}`, { method: "DELETE" });
+    load();
+}
+
+load();
     </script>
